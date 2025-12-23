@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 export default function Header() {
   return (
     <header className="bg-background border-b border-dashed h-16 flex items-center">
-      <div className="flex items-center justify-between max-w-340 mx-auto w-full px-4">
+      <div className="flex items-center justify-between w-full px-4">
         <div className="flex items-center gap-2">
           <HugeiconsIcon
             icon={CursorRectangleSelection02Icon}

@@ -1,5 +1,8 @@
 // _lib/stores.ts
 
+//premade boards
+import { premadeBoards, premadeColumns, premadeItems } from "./premadeboard";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Column, Item, Board, Id } from "./types";
@@ -24,9 +27,9 @@ export const useLocalState = create<States & Actions>()(
   persist(
     (set) => ({
       ActiveBoard: null,
-      Boards: [],
-      Columns: [],
-      Items: [],
+      Boards: premadeBoards,
+      Columns: premadeColumns,
+      Items: premadeItems,
 
       SetActiveBoard: (boardId) =>
         set((state) => ({

@@ -22,6 +22,7 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from "../ui/input-group";
+import { toast } from "sonner";
 
 // FORM VALIDATIONS
 import { Controller, useForm } from "react-hook-form";
@@ -56,13 +57,14 @@ export default function AddBoardDialog() {
       label: data.name,
       description: data.description,
       total_columns: 0,
-      is_active: true,
+      is_active: false,
     };
 
     try {
       addNewBoard(newBoard);
-    } catch (error) {
-      console.log(error);
+      toast.success(`${newBoard.label} was added!`);
+    } catch (err) {
+      toast.error(`An error occured. ${err}`);
     } finally {
       setOpen(false);
       form.reset();

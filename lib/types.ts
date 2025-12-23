@@ -5,7 +5,6 @@ export type Board = {
   label: string;
   description?: string;
   total_columns?: number;
-  is_active: boolean;
   //   created_at: number;
   //   updated_at: number;
 };
