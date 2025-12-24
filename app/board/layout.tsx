@@ -8,7 +8,7 @@ export default function KanbanBoardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-full flex-col bg-gray-100">
+    <div className="flex h-full flex-col">
       <Header />
       <main className="flex flex-1 overflow-hidden w-full">
         <SideBar />

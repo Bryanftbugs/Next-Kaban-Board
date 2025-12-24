@@ -8,6 +8,7 @@ import { persist } from "zustand/middleware";
 import { Column, Item, Board, Id } from "./types";
 
 interface States {
+  hasHydrated: boolean;
   ActiveBoard: Board | null;
   Boards: Board[];
   Columns: Column[];
@@ -15,6 +16,7 @@ interface States {
 }
 
 interface Actions {
+  SetHasHydrated: (state: boolean) => void;
   SetActiveBoard: (boardId: Id) => void;
   AddNewBoard: (newBoard: Board) => void;
   AddNewColumn: (newColumn: Column) => void;
@@ -26,10 +28,16 @@ interface Actions {
 export const useLocalState = create<States & Actions>()(
   persist(
     (set) => ({
+      hasHydrated: false,
       ActiveBoard: null,
       Boards: premadeBoards,
       Columns: premadeColumns,
       Items: premadeItems,
+
+      SetHasHydrated: (state: boolean) =>
+        set({
+          hasHydrated: state,
+        }),
 
       SetActiveBoard: (boardId) =>
         set((state) => ({
@@ -64,6 +72,9 @@ export const useLocalState = create<States & Actions>()(
     }),
     {
       name: "board",
+      onRehydrateStorage: (state) => {
+        return () => state.SetHasHydrated(true);
+      },
     }
   )
 );
