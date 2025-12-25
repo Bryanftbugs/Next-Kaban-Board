@@ -46,7 +46,7 @@ export default function SortableItem({ item_details }: Props) {
       style={style}
       {...attributes}
       {...listeners}
-      className="p-2 rounded-xl bg-white shadow-md flex flex-col min-h-24"
+      className="p-2 rounded-xl bg-white shadow-md flex flex-col min-h-24 hover:cursor-grab"
     >
       <div className="flex items-center justify-between mb-2">
         <p className="font-medium text-sm">{item_details.content}</p>

@@ -1,10 +1,12 @@
-import React from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  AddSquareIcon,
   CursorRectangleSelection02Icon,
+  MoonEclipseIcon,
+  Settings02Icon,
 } from "@hugeicons/core-free-icons";
-import { Button } from "../ui/button";
+
+//components
+import PopupButton from "../general/PopupButton";
 
 export default function Header() {
   return (
@@ -17,11 +19,12 @@ export default function Header() {
           />
           <h1 className="text-lg font-semibold">Kanban Board</h1>
         </div>
-        <div>
-          <Button>
-            <HugeiconsIcon icon={AddSquareIcon} />
-            New Board
-          </Button>
+        <div className="flex items-center gap-2 text-gray-500">
+          <HugeiconsIcon icon={MoonEclipseIcon} />
+          <HugeiconsIcon icon={Settings02Icon} />
+          <PopupButton button_label="Show popup" popup_title="Popup Test">
+            <p>Add content here</p>
+          </PopupButton>
         </div>
       </div>
     </header>

@@ -57,7 +57,6 @@ export default function AddBoardDialog() {
       label: data.name,
       description: data.description,
       total_columns: 0,
-      is_active: false,
     };
 
     try {

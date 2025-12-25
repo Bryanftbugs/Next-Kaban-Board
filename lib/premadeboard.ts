@@ -19,7 +19,7 @@ export const premadeColumns: Column[] = [
   // Todo List board
   { id: "col-1", boardId: "board-1", label: "To Do" },
   { id: "col-2", boardId: "board-1", label: "In Progress" },
-  { id: "col-3", boardId: "board-1", label: "Done" },
+  { id: "col-3", boardId: "board-1", label: "Drag me 👋" },
 
   // Project Sprint board
   { id: "col-4", boardId: "board-2", label: "Backlog" },

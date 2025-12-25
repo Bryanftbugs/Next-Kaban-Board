@@ -6,17 +6,22 @@ import { Column as ColumnType, Item } from "@/lib/types";
 interface Props {
   column_details: ColumnType;
   items: Item[];
+  activeItem?: Item | null;
+  overId?: string | number | null;
 }
 
 //DND
 import { useSortable, SortableContext } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import SortableItem from "./SortableItem";
 
-export default function SortableColumn({ column_details, items }: Props) {
-  const [isItemDragged, setIsItemDragged] = useState<boolean>(false);
-
+export default function SortableColumn({
+  column_details,
+  items,
+  activeItem,
+  overId,
+}: Props) {
   const {
     setNodeRef,
     attributes,
@@ -47,6 +52,12 @@ export default function SortableColumn({ column_details, items }: Props) {
     [filteredItems]
   );
 
+  // Check if an item is being dragged over this column
+  const isItemOverColumn =
+    activeItem &&
+    overId === column_details.id &&
+    activeItem.columnId !== column_details.id;
+
   if (isDragging) {
     return (
       <div ref={setNodeRef} style={style}>
@@ -59,7 +70,9 @@ export default function SortableColumn({ column_details, items }: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="w-[280px] min-w-[280px] px-2.5 py-4 rounded-2xl h-[650px] bg-gray-50 border border-gray-300"
+      className={`min-w-[277px] px-2.5 py-4 rounded-2xl h-[650px] bg-gray-50 border ${
+        isItemOverColumn ? "border-primary bg-primary/10" : "border-gray-300"
+      }`}
     >
       <div className="flex items-center justify-between mb-2">
         <div

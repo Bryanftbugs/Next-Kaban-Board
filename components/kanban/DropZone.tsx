@@ -5,6 +5,7 @@ import NoSelectedBoard from "./NoSelectedBoard";
 //COMPONENTS
 import SortableColumn from "./SortableColumn";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import DropZoneActions from "./DropZoneActions";
 
 //STORES
 import { useLocalState } from "@/lib/stores";
@@ -16,6 +17,7 @@ import {
   DragStartEvent,
   DragOverlay,
   DragEndEvent,
+  DragOverEvent,
   useSensor,
   useSensors,
   PointerSensor,
@@ -44,6 +46,7 @@ export default function DropZone() {
   // ✅ local UI-only state
   const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
   const [activeItem, setActiveItem] = useState<Item | null>(null);
+  const [overId, setOverId] = useState<string | number | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -66,22 +69,31 @@ export default function DropZone() {
   );
 
   return (
-    <div className="w-full h-full p-6">
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-700">
-          {activeBoard.label}
-        </h2>
-        {activeColumns.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            This board has no Columns yet.
-          </p>
-        )}
+    <div className="w-full h-full py-6 px-4">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-700">
+              {activeBoard.label}
+            </h2>
+          </div>
+          <p className="text-gray-300 select-none">|</p>
+          <div>
+            <p className="text-sm text-muted-foreground">
+              {activeBoard.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Dropzone actions */}
+        <DropZoneActions boardId={activeBoard.id} />
       </div>
 
       <div className="w-full">
         <DndContext
           sensors={sensors}
           onDragStart={onDragStart}
+          onDragOver={onDragOver}
           onDragEnd={onDragEnd}
         >
           <ScrollArea className="h-[690px]">
@@ -92,6 +104,8 @@ export default function DropZone() {
                     key={item.id}
                     column_details={item}
                     items={Items}
+                    activeItem={activeItem}
+                    overId={overId}
                   />
                 ))}
               </SortableContext>
@@ -124,9 +138,19 @@ export default function DropZone() {
     }
   }
 
+  function onDragOver(event: DragOverEvent) {
+    const { over } = event;
+    if (!over) {
+      setOverId(null);
+      return;
+    }
+    setOverId(over.id);
+  }
+
   function onDragEnd(event: DragEndEvent) {
     setActiveColumn(null);
     setActiveItem(null);
+    setOverId(null);
 
     const { active, over } = event;
     if (!over) return;
