@@ -18,6 +18,8 @@ interface States {
 interface Actions {
   SetHasHydrated: (state: boolean) => void;
   SetActiveBoard: (boardId: Id) => void;
+  DeleteColumn: (columnId: Id) => void;
+  DeleteItem: (itemId: Id) => void;
   AddNewBoard: (newBoard: Board) => void;
   AddNewColumn: (newColumn: Column) => void;
   AddNewItem: (newItem: Item) => void;
@@ -33,6 +35,17 @@ export const useLocalState = create<States & Actions>()(
       Boards: premadeBoards,
       Columns: premadeColumns,
       Items: premadeItems,
+
+      DeleteItem: (itemId) =>
+        set((state) => ({
+          Items: state.Items.filter((item) => item.id !== itemId),
+        })),
+
+      DeleteColumn: (columnId) =>
+        set((state) => ({
+          Columns: state.Columns.filter((column) => column.id !== columnId),
+          Items: state.Items.filter((item) => item.columnId !== columnId),
+        })),
 
       SetHasHydrated: (state: boolean) =>
         set({

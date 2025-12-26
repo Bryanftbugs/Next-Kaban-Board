@@ -86,7 +86,7 @@ export default function DropZone() {
         </div>
 
         {/* Dropzone actions */}
-        <DropZoneActions boardId={activeBoard.id} />
+        <DropZoneActions board_id={activeBoard.id} />
       </div>
 
       <div className="w-full">

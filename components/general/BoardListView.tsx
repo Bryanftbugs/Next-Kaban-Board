@@ -5,7 +5,7 @@ import BoardItemView from "../kanban/BoardItemView";
 
 //STORE
 import { useLocalState } from "@/lib/stores";
-import AddBoardDialog from "./AddBoardDialog";
+import AddBoardDialog from "../popup/AddBoardDialog";
 
 import EmptyBoardList from "./EmptyBoardList";
 

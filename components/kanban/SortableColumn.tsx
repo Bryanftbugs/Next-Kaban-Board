@@ -1,8 +1,11 @@
 //COMPONENTS
 import ColumnOverlay from "./ColumnOverlay";
+import { Button } from "../ui/button";
+import DeleteAlert from "../alert-popup/DeleteColumnAlert";
+import { toast } from "sonner";
 
 //TYPES
-import { Column as ColumnType, Item } from "@/lib/types";
+import { Column as ColumnType, Id, Item } from "@/lib/types";
 interface Props {
   column_details: ColumnType;
   items: Item[];
@@ -15,6 +18,8 @@ import { useSortable, SortableContext } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useMemo } from "react";
 import SortableItem from "./SortableItem";
+import { AddSquareIcon, Delete01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 export default function SortableColumn({
   column_details,
@@ -81,6 +86,15 @@ export default function SortableColumn({
           className="cursor-grab w-full text-gray-500 uppercase tracking-wide text-xs font-medium flex gap-2"
         >
           {column_details.label}
+        </div>
+        <div className="flex items-center justify-center text-gray-500 hover:text-gray-700">
+          <Button size="icon-sm" variant="ghost">
+            <HugeiconsIcon icon={AddSquareIcon} />
+          </Button>
+          <DeleteAlert
+            column_id={column_details.id}
+            column_label={column_details.label}
+          />
         </div>
       </div>
 
