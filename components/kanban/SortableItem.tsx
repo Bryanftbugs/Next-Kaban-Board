@@ -1,5 +1,8 @@
+"use client";
+
 //components
 import ItemOverlay from "./ItemOverlay";
+import { Badge } from "../ui/badge";
 
 //dnd
 import { useSortable } from "@dnd-kit/sortable";
@@ -7,11 +10,15 @@ import { CSS } from "@dnd-kit/utilities";
 
 //types
 import { Item as ItemType } from "@/lib/types";
+import { DragDropHorizontalIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
 interface Props {
   item_details: ItemType;
+  onItemClick?: (item: ItemType) => void;
 }
 
-export default function SortableItem({ item_details }: Props) {
+export default function SortableItem({ item_details, onItemClick }: Props) {
   const {
     setNodeRef,
     attributes,
@@ -44,14 +51,25 @@ export default function SortableItem({ item_details }: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className="p-2 rounded-xl bg-white shadow-md flex flex-col min-h-24 hover:cursor-grab"
+      className="p-4 rounded-xl bg-white shadow-md flex flex-col min-h-28 cursor-pointer border hover:border-primary transition-shadow"
+      onClick={() => onItemClick?.(item_details)}
     >
+      {/* Header (draggable) */}
       <div className="flex items-center justify-between mb-2">
-        <p className="font-medium text-sm">{item_details.content}</p>
+        <Badge>Test</Badge>
+        <div
+          {...attributes}
+          {...listeners}
+          className="text-muted-foreground hover:cursor-grab"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <HugeiconsIcon icon={DragDropHorizontalIcon} />
+        </div>
       </div>
-      <p className="text-xs text-muted-foreground">This is the content.</p>
+      <div className="flex flex-col gap-2">
+        <p className="font-medium text-sm">{item_details.content}</p>
+        <p className="text-xs text-muted-foreground">This is the content.</p>
+      </div>
     </div>
   );
 }

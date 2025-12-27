@@ -17,3 +17,10 @@ export const addNewColumnSchema = z.object({
     .min(5, "Name must be at least 5 characters.")
     .max(20, "Name must be at most 20 characters."),
 });
+
+export const addNewItemSchema = z.object({
+  content: z
+    .string()
+    .min(5, "Content must be at least 5 characters.")
+    .max(30, "Content must be at most 30 characters."),
+});

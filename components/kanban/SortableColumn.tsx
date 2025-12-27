@@ -2,7 +2,7 @@
 import ColumnOverlay from "./ColumnOverlay";
 import { Button } from "../ui/button";
 import DeleteAlert from "../alert-popup/DeleteColumnAlert";
-import { toast } from "sonner";
+import AddItemDialog from "../popup/AddItemDialog";
 
 //TYPES
 import { Column as ColumnType, Id, Item } from "@/lib/types";
@@ -11,6 +11,7 @@ interface Props {
   items: Item[];
   activeItem?: Item | null;
   overId?: string | number | null;
+  onItemClick?: (item: Item) => void;
 }
 
 //DND
@@ -26,6 +27,7 @@ export default function SortableColumn({
   items,
   activeItem,
   overId,
+  onItemClick,
 }: Props) {
   const {
     setNodeRef,
@@ -76,7 +78,7 @@ export default function SortableColumn({
       ref={setNodeRef}
       style={style}
       className={`min-w-[277px] px-2.5 py-4 rounded-2xl h-[650px] bg-gray-50 border ${
-        isItemOverColumn ? "border-primary bg-primary/10" : "border-gray-300"
+        isItemOverColumn ? "border-primary bg-primary/10" : ""
       }`}
     >
       <div className="flex items-center justify-between mb-2">
@@ -88,9 +90,7 @@ export default function SortableColumn({
           {column_details.label}
         </div>
         <div className="flex items-center justify-center text-gray-500 hover:text-gray-700">
-          <Button size="icon-sm" variant="ghost">
-            <HugeiconsIcon icon={AddSquareIcon} />
-          </Button>
+          <AddItemDialog columnId={column_details.id} />
           <DeleteAlert
             column_id={column_details.id}
             column_label={column_details.label}
@@ -103,7 +103,11 @@ export default function SortableColumn({
       <div className="flex flex-col gap-2">
         <SortableContext items={itemsId}>
           {filteredItems?.map((item) => (
-            <SortableItem key={item.id} item_details={item} />
+            <SortableItem
+              key={item.id}
+              item_details={item}
+              onItemClick={onItemClick}
+            />
           ))}
         </SortableContext>
       </div>

@@ -4,6 +4,7 @@ import {
   MoonEclipseIcon,
   Settings02Icon,
 } from "@hugeicons/core-free-icons";
+import ItemView from "./ItemView";
 
 export default function Header() {
   return (
@@ -19,6 +20,7 @@ export default function Header() {
         <div className="flex items-center gap-2 text-gray-500">
           <HugeiconsIcon icon={MoonEclipseIcon} />
           <HugeiconsIcon icon={Settings02Icon} />
+          <ItemView />
         </div>
       </div>
     </header>

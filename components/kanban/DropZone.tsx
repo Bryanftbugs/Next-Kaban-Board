@@ -6,6 +6,7 @@ import NoSelectedBoard from "./NoSelectedBoard";
 import SortableColumn from "./SortableColumn";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import DropZoneActions from "./DropZoneActions";
+import ItemView from "./ItemView";
 
 //STORES
 import { useLocalState } from "@/lib/stores";
@@ -47,6 +48,8 @@ export default function DropZone() {
   const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
   const [activeItem, setActiveItem] = useState<Item | null>(null);
   const [overId, setOverId] = useState<string | number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [isItemSheetOpen, setIsItemSheetOpen] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -106,6 +109,10 @@ export default function DropZone() {
                     items={Items}
                     activeItem={activeItem}
                     overId={overId}
+                    onItemClick={(item) => {
+                      setSelectedItem(item);
+                      setIsItemSheetOpen(true);
+                    }}
                   />
                 ))}
               </SortableContext>
@@ -121,6 +128,20 @@ export default function DropZone() {
           </DragOverlay>
         </DndContext>
       </div>
+
+      {/* Single ItemView for all items - better performance */}
+      {selectedItem && (
+        <ItemView
+          item_details={selectedItem}
+          open={isItemSheetOpen}
+          onOpenChange={(open) => {
+            setIsItemSheetOpen(open);
+            if (!open) {
+              setSelectedItem(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 
