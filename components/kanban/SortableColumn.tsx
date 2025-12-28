@@ -1,6 +1,6 @@
 //COMPONENTS
+import EmptyItem from "../general/EmptyItem";
 import ColumnOverlay from "./ColumnOverlay";
-import { Button } from "../ui/button";
 import DeleteAlert from "../alert-popup/DeleteColumnAlert";
 import AddItemDialog from "../popup/AddItemDialog";
 
@@ -85,7 +85,7 @@ export default function SortableColumn({
         <div
           {...attributes}
           {...listeners}
-          className="cursor-grab w-full text-gray-500 uppercase tracking-wide text-xs font-medium flex gap-2"
+          className="cursor-grab w-full text-gray-600 uppercase tracking-wide text-xs font-medium flex gap-2"
         >
           {column_details.label}
         </div>
@@ -100,17 +100,21 @@ export default function SortableColumn({
 
       {/* content children */}
 
-      <div className="flex flex-col gap-2">
-        <SortableContext items={itemsId}>
-          {filteredItems?.map((item) => (
-            <SortableItem
-              key={item.id}
-              item_details={item}
-              onItemClick={onItemClick}
-            />
-          ))}
-        </SortableContext>
-      </div>
+      {filteredItems.length > 0 ? (
+        <div className="flex flex-col gap-2">
+          <SortableContext items={itemsId}>
+            {filteredItems.map((item) => (
+              <SortableItem
+                key={item.id}
+                item_details={item}
+                onItemClick={onItemClick}
+              />
+            ))}
+          </SortableContext>
+        </div>
+      ) : (
+        <EmptyItem />
+      )}
 
       {/* footer */}
     </div>
