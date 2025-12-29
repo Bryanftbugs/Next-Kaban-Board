@@ -10,6 +10,10 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { ItemColorSelection } from "./ItemColorSelection";
+
+//TYPES
+import { Color } from "@/lib/types";
 
 // FORM VALIDATIONS
 import { Controller, useForm } from "react-hook-form";
@@ -23,21 +27,24 @@ import { Field, FieldLabel, FieldError } from "../ui/field";
 import { Id, Item } from "@/lib/types";
 import { generateId } from "@/lib/utils";
 import { useState } from "react";
-import { AddSquareIcon } from "@hugeicons/core-free-icons";
+import { AddSquareIcon, IdeaIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 //PROPS
 interface Props {
-  columnId: Id;
+  column_id: Id;
+  column_label: string;
 }
 
-export default function AddItemDialog({ columnId }: Props) {
+export default function AddItemDialog({ column_id, column_label }: Props) {
   const [open, setOpen] = useState(false);
+  const [color, setColor] = useState<Color>("pink");
 
   const form = useForm<z.infer<typeof addNewItemSchema>>({
     resolver: zodResolver(addNewItemSchema),
     defaultValues: {
       content: "",
+      tag: "",
     },
   });
 
@@ -47,8 +54,10 @@ export default function AddItemDialog({ columnId }: Props) {
     // Do something with the form values - data.
     const newItem: Item = {
       id: generateId(),
-      columnId: columnId,
+      columnId: column_id,
       content: data.content,
+      tag: data.tag,
+      tagColor: color,
     };
 
     addNewItem(newItem);
@@ -56,7 +65,7 @@ export default function AddItemDialog({ columnId }: Props) {
     form.reset();
   }
 
-  const formId = `add-item-form-${columnId}`;
+  const formId = `add-item-form-${column_id}`;
 
   return (
     <Dialog
@@ -74,11 +83,38 @@ export default function AddItemDialog({ columnId }: Props) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Name your column</DialogTitle>
-            <DialogDescription>Ex. In progress</DialogDescription>
+            <DialogTitle>{`Add item to ${column_label}`}</DialogTitle>
+            <DialogDescription>
+              You can use the tag to search for an item easily.
+            </DialogDescription>
           </DialogHeader>
           <div className="flex items-center gap-2">
             <div className="grid flex-1 gap-2">
+              <Controller
+                name="tag"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="item-tag">Item Tag</FieldLabel>
+                    <div className="flex items-center justify-between gap-2">
+                      <Input
+                        {...field}
+                        id="item-tag"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Urgent"
+                        autoComplete="off"
+                      />
+                      <ItemColorSelection
+                        color={color}
+                        setColor={(newColor) => setColor(newColor as Color)}
+                      />
+                    </div>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
               <Controller
                 name="content"
                 control={form.control}

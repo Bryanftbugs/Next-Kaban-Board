@@ -2,7 +2,7 @@
 
 //components
 import ItemOverlay from "./ItemOverlay";
-import { Badge } from "../ui/badge";
+import ColoredBadge from "../general/ColoredBadge";
 
 //dnd
 import { useSortable } from "@dnd-kit/sortable";
@@ -56,7 +56,10 @@ export default function SortableItem({ item_details, onItemClick }: Props) {
     >
       {/* Header (draggable) */}
       <div className="flex items-center justify-between mb-2">
-        <Badge>Test</Badge>
+        <ColoredBadge
+          color={item_details.tagColor!}
+          label={item_details.tag!}
+        />
         <div
           {...attributes}
           {...listeners}

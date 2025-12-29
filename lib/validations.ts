@@ -23,4 +23,8 @@ export const addNewItemSchema = z.object({
     .string()
     .min(5, "Content must be at least 5 characters.")
     .max(30, "Content must be at most 30 characters."),
+  tag: z
+    .string()
+    .min(3, "Tag must be at least 3 characters.")
+    .max(15, "Content must be at most 15 characters."),
 });

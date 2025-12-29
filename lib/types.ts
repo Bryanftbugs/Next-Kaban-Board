@@ -19,4 +19,10 @@ export type Item = {
   id: Id;
   columnId: Id;
   content: string;
+  tag?: string;
+  tagColor?: Color;
 };
+
+//UI
+// If a new color was added to this type, the Badge component needs to accept the added color too.
+export type Color = "pink" | "purple" | "blue" | "amber" | "red";

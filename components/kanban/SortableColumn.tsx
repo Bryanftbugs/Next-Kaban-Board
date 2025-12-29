@@ -19,8 +19,6 @@ import { useSortable, SortableContext } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useMemo } from "react";
 import SortableItem from "./SortableItem";
-import { AddSquareIcon, Delete01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 
 export default function SortableColumn({
   column_details,
@@ -90,7 +88,10 @@ export default function SortableColumn({
           {column_details.label}
         </div>
         <div className="flex items-center justify-center text-gray-500 hover:text-gray-700">
-          <AddItemDialog columnId={column_details.id} />
+          <AddItemDialog
+            column_id={column_details.id}
+            column_label={column_details.label}
+          />
           <DeleteAlert
             column_id={column_details.id}
             column_label={column_details.label}

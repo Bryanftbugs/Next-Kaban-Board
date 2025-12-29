@@ -33,6 +33,8 @@ export default function DeleteAlert({ column_id, column_label }: Props) {
     toast.success(`Column ${column_label} has been deleted!`);
   }
 
+  const confirmation: string = `Delete ${column_label.toUpperCase()} column?`;
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -42,7 +44,7 @@ export default function DeleteAlert({ column_id, column_label }: Props) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{confirmation}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will delete this column along
             with its items.
